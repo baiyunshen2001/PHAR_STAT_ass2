@@ -5,6 +5,7 @@ library(multcomp)
 library(vcdExtra)
 library(tidyverse)
 library(DescTools)
+library(CATT)
 data=read.csv("DTA41.csv",header = T)
 colnames(data)[1]="Obs"
 data$TRT=factor(data$TRT)
@@ -30,3 +31,10 @@ dimnames(dose_data) <- list("trt" = c("0", "1", "2", "3"),
                       "resp" = c("Yes", "No"))
 dose_data
 CochranArmitageTest(dose_data)
+
+data$TRT <- factor(data$TRT, ordered = TRUE)
+data$RESP <- factor(data$RESP)
+
+# Perform the Cochran-Armitage trend test
+result <- CATT(table=t(dose_data))
+result
